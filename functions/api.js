@@ -2,19 +2,19 @@ const api = {
   get: (event, context) => {
     return {
       statusCode: 200,
-      body: 'reba says something'
+      body: `reba says something for ${event.id}`
     }
   },
   post: (event, context) => {
     return {
       statusCode: 200,
-      body: 'reba wrote something'
+      body: `reba wrote something`
     }
   },
   patch: (event, context) => {
     return {
       statusCode: 200,
-      body: 'reba updated something'
+      body: `reba updated something for ${event.id}`
     }
   }
 }

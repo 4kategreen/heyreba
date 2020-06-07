@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 module.exports = {
   processInputs: (textString) => {
     const text = textString.split(/(\@\w+)/i);
@@ -12,7 +14,16 @@ module.exports = {
       text: text[2].trim()
     }
   },
-  sendMessage: () => {
-
+  sendMessage: (url, message, user) => {
+    axios.post(url, {
+      headers: {
+        'contentType': 'json'
+      },
+      data: {
+        channel: user,
+        text: message,
+        as_user: true
+      }
+    })
   }
 }

@@ -15,11 +15,17 @@ exports.handler = async (event, context) => {
 
     switch (type) {
       case 'assign':
-        console.log(`${response.user_name} assigned ${text} to ${user}`)
-        result.statusCode = 200
-        result.body = `We told ${user} to ${text}. They will tell you when it's done`;
+        try {
+          sendMessage(response.response_url, 'something', '@kate');
+          console.log(`${response.user_name} assigned ${text} to ${user}`)
+          result.statusCode = 200
+          result.body = `We told ${user} to ${text}. They will tell you when it's done`;
+        } catch(err) {
+          result.statusCode = 500;
+          result.message = err.message;
+        }
         break;
-      case 'tell':
+      case 'complete':
         console.log(`${response.user_name}'s task ${text} is done. telling ${user}`)
         result.statusCode = 200
         result.body = `We told ${user} that you're done with your task, ${text}.`

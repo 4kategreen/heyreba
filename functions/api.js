@@ -1,69 +1,37 @@
-const api = {
-  get: (event, context) => {
-    return {
-      statusCode: 200,
-      body: `reba says something for ${event.id}`
-    }
-  },
-  post: (event, context) => {
-    return {
-      statusCode: 200,
-      body: `reba wrote something`
-    }
-  },
-  patch: (event, context) => {
-    return {
-      statusCode: 200,
-      body: `reba updated something for ${event.id}`
-    }
+const sendMessage = () => {
+
+}
+
+const testInputs = (textString) => {
+  const text = textString[0].split('+');
+
+  if (text.length !== 3) {
+    throw new Error(textString[0]);
   }
+
+  return [
+    text[0].split('=')[1],
+    text[1],
+    text[2]
+  ]
 }
 
 exports.handler = async (event, context) => {
   const path = event.path.replace(/\.netlify\/functions\/[^/]+/, '')
   const segments = path.split('/').filter(e => e)
 
-  console.log(`Event Received: ${segments.toString()}`)
-  console.log(event);
+  try {
+    const text = event.body.split('&').filter(string => string.match(/^text=/))
+    const [ command, assignee, task ] = testInputs(text)
 
-  switch (event.httpMethod) {
-    case 'GET':
-      // GET /.netlify/functions/api
-      if (segments.length === 0) {
-        return {
-          statusCode: 500,
-          body: 'missing userid'
-        }
-      }
-      // GET /.netlify/functions/api/123456
-      if (segments.length === 1) {
-        event.id = segments[0]
-        return api.get(event, context)
-      } else {
-        return {
-          statusCode: 500,
-          body: 'too many segments in GET request'
-        }
-      }
-    // POST /.netlify/functions/api
-    case 'POST':
-      return api.post(event, context)
-    // PUT /.netlify/functions/api/123456 
-    case 'PATCH':
-      if (segments.length === 1) {
-        event.id = segments[0]
-        return api.patch(event, context)
-      } else {
-        return {
-          statusCode: 500,
-          body: 'invalid segments in POST request, must be /.netlify/functions/api/123456'
-        }
-      }
-    // Fallthrough case
-    default:
-      return {
-        statusCode: 500,
-        body: 'unrecognized HTTP Method, must be one of GET/POST/PATCH'
-      }
+    return {
+      statusCode: 200,
+      body: `We're telling ${assignee} to ${task}. They will tell you when it's done`
+    }
+  } catch(err) {
+    return {
+      statusCode: 400,
+      body: err.message
+    }
   }
 }

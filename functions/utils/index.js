@@ -2,10 +2,10 @@ const axios = require('axios')
 
 module.exports = {
   processInputs: (textString) => {
-    const text = textString.split(/(\@\w+)/i);
+    const text = textString.split(/(\@\w+)/i)
 
     if (text.length !== 3 || text[2].length === 0) {
-      throw new Error('Something is wrong with your message. Please try again');
+      throw new Error('Something is wrong with your message. Please try again')
     }
 
     return {

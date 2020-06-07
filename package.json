@@ -21,6 +21,7 @@
     "jsverify": "^0.8.4"
   },
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0"
   }
 }

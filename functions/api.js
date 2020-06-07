@@ -16,13 +16,17 @@ exports.handler = async (event, context) => {
     switch (type) {
       case 'assign':
         try {
-          sendMessage(response.response_url, 'something', '@kate');
+          const result = await sendMessage('something', '@kate');
+          if (!result.data.ok) {
+            console.log(result)
+            throw new Error(result.data.error)
+          }
           console.log(`${response.user_name} assigned ${text} to ${user}`)
           result.statusCode = 200
           result.body = `We told ${user} to ${text}. They will tell you when it's done`;
         } catch(err) {
           result.statusCode = 500;
-          result.message = err.message;
+          result.body = err.message;
         }
         break;
       case 'complete':

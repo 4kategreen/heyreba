@@ -2,7 +2,7 @@
   "name": "heyreba",
   "version": "1.0.0",
   "description": "A Slackbot for offloading tasks",
-  "main": "functions/heyreba.js",
+  "main": "functions/api.js",
   "scripts": {
     "test": "jest"
   },

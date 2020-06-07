@@ -1,16 +1,19 @@
+const querystring = require('querystring');
+
 const sendMessage = () => {
 
 }
 
-const testInputs = (textString) => {
-  const text = textString[0].split('+');
+const processInputs = (textString) => {
+  const text = textString.split(' ');
+  console.log(text.toString())
 
   if (text.length !== 3) {
-    throw new Error(textString[0]);
+    throw new Error(text.toString());
   }
 
   return [
-    text[0].split('=')[1],
+    text[0],
     text[1],
     text[2]
   ]
@@ -21,8 +24,9 @@ exports.handler = async (event, context) => {
   const segments = path.split('/').filter(e => e)
 
   try {
-    const text = event.body.split('&').filter(string => string.match(/^text=/))
-    const [ command, assignee, task ] = testInputs(text)
+    const response = querystring.parse(event.body);
+    console.log(response)
+    const [ type, assignee, task ] = processInputs(response.text)
 
     return {
       statusCode: 200,

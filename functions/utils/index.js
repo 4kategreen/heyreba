@@ -17,13 +17,14 @@ module.exports = {
   sendMessage: async (message, user) => {
     return axios({
       url: 'https://slack.com/api/chat.postMessage',
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
         Authorization: `Bearer ${process.env.BOT_TOKEN}`
       },
       data: {
         channel: user,
-        text: 'from the api',
+        text: message,
         as_user: true
       }
     })

@@ -5,7 +5,7 @@ module.exports = {
     const text = textString.split(/(\@\w+)/i);
 
     if (text.length !== 3 || text[2].length === 0) {
-      throw new Error('something is wrong with your message. please try again');
+      throw new Error('Something is wrong with your message. Please try again');
     }
 
     return {
